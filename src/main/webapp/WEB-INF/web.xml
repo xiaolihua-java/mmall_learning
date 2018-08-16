@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         id="WebApp_ID" version="2.5">
+
+    <display-name>Archetype Created Web Application</display-name>
+
+    <filter><!--这个过滤器是为了转码用的，转成utf-8-->
+        <filter-name>characterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>characterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern><!--这是拦截的路径-->
+    </filter-mapping>
+
+
+    <listener><!--这个监听器是监听web容器的启动和关闭事件-->
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+
+    <listener><!--这个监听器是监听web容器和spring的整合-->
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:applicationContext.xml  <!--applicationContext.xml是spring配置文件，上面的ContextLoaderListener通过这个文件将web容器和spring进行整合，通过ContextLoaderListener来加载applicationContext.xml文件-->
+        </param-value>
+    </context-param>
+
+
+    <servlet><!--这个servlet是配置springmvc的一个核心控制器配置,核心控制器的作用是分发请求-->
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup><!-- >=0代表容器启动时就初始化这个servlet-->
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>*.do</url-pattern><!--表示*.do的请求都会被springmvc拦截-->
+    </servlet-mapping>
+
+</web-app>
+
